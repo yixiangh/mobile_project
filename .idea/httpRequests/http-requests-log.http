@@ -1,0 +1,8 @@
+POST http://localhost:8088/login?sysAccountName=admin&sysUserPwd=123456
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-03-28T072543.200.json
+
+###
+

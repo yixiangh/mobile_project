@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mobile.mapper.BusinessCardRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.BusinessCardRelation" >
+    <id column="business_card_id" property="businessCardId" jdbcType="VARCHAR" />
+    <result column="business_id" property="businessId" jdbcType="VARCHAR" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="card_num" property="cardNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from business_card_relation
+    where business_card_id = #{businessCardId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.mobile.model.entity.BusinessCardRelation" >
+    insert into business_card_relation (business_card_id, business_id, card_id, 
+      card_num, create_time, update_time
+      )
+    values (#{businessCardId,jdbcType=VARCHAR}, #{businessId,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, 
+      #{cardNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.BusinessCardRelation" >
+    update business_card_relation
+    set business_id = #{businessId,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      card_num = #{cardNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where business_card_id = #{businessCardId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select business_card_id, business_id, card_id, card_num, create_time, update_time
+    from business_card_relation
+    where business_card_id = #{businessCardId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select business_card_id, business_id, card_id, card_num, create_time, update_time
+    from business_card_relation
+  </select>
+</mapper>

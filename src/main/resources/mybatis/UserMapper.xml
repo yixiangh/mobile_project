@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mobile.mapper.UserMapper" >
+    <resultMap id="resultMap" type="SysUser" >
+            <id column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="user_real_name" property="userRealName" jdbcType="VARCHAR" />
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+        <result column="user_age" property="userAge" jdbcType="INTEGER" />
+        <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+        <result column="user_status" property="userStatus" jdbcType="INTEGER" />
+        <result column="is_del" property="isDel" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+       user_id,user_name,user_real_name,user_password,user_age,user_sex,user_phone,user_status,is_del,create_time,update_time
+    </sql>
+
+    <select id="getLoginUserInfo" resultMap="resultMap" parameterType="SysUser" >
+        select
+            user_id,
+            user_name,
+            user_real_name,
+            user_password,
+            user_status
+        from sys_user
+        where user_name = #{userName} and is_del = #{isDel}
+    </select>
+
+    <select id="getSysUserList" resultMap="resultMap" parameterType="SysUser" >
+        select
+        <include refid="Base_Column_List" />
+        from sys_user
+        <where>
+            <if test="userId != null and userId!= ''">
+                and USER_ID =#{userId}
+            </if>
+            <if test="userRealName != null and userRealName!= ''">
+                and user_real_name like CONCAT('%',#{userRealName},'%')
+            </if>
+            and is_del = #{isDel}
+        </where>
+    </select>
+
+    <select id="getLoginUserInfoByUrm" resultMap="resultMap" parameterType="com.example.mobile.model.vo.UserRoleMenu" >
+        select
+            user_id,
+            user_name,
+            user_real_name,
+            user_password
+        from sys_user
+        <where>
+            <if test="userId != null and userId!= ''">
+                and USER_ID =#{userId}
+            </if>
+            <if test="userName != null and userName!= ''">
+                and user_name = #{userName}
+            </if>
+            and is_del = #{isDel}
+        </where>
+    </select>
+
+    <insert id="insertSysUser" parameterType="SysUser">
+        INSERT INTO sys_user(user_id,user_name,user_real_name,user_password,user_age,user_sex,user_phone,user_status,is_del,create_time,update_time)
+        VALUES (#{userId},#{userName},#{userRealName},#{userPassword},#{userAge},#{userSex},#{userPhone},#{userStatus},#{isDel},#{createTime},#{updateTime})
+    </insert>
+
+</mapper>

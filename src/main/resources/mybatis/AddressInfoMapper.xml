@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mobile.mapper.AddressInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.AddressInfo" >
+    <id column="address_id" property="addressId" jdbcType="VARCHAR" />
+    <result column="address_type" property="addressType" jdbcType="INTEGER" />
+    <result column="address_lon" property="addressLon" jdbcType="DECIMAL" />
+    <result column="address_lat" property="addressLat" jdbcType="DECIMAL" />
+    <result column="address_name" property="addressName" jdbcType="VARCHAR" />
+    <result column="address_code" property="addressCode" jdbcType="VARCHAR" />
+    <result column="address_desc" property="addressDesc" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from address_info
+    where address_id = #{addressId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.mobile.model.entity.AddressInfo" >
+    insert into address_info (address_id, address_type, address_lon, 
+      address_lat, address_name, address_code, 
+      address_desc, is_del, create_time, 
+      update_time)
+    values (#{addressId,jdbcType=VARCHAR}, #{addressType,jdbcType=INTEGER}, #{addressLon,jdbcType=DECIMAL}, 
+      #{addressLat,jdbcType=DECIMAL}, #{addressName,jdbcType=VARCHAR}, #{addressCode,jdbcType=VARCHAR}, 
+      #{addressDesc,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.AddressInfo" >
+    update address_info
+    set address_type = #{addressType,jdbcType=INTEGER},
+      address_lon = #{addressLon,jdbcType=DECIMAL},
+      address_lat = #{addressLat,jdbcType=DECIMAL},
+      address_name = #{addressName,jdbcType=VARCHAR},
+      address_code = #{addressCode,jdbcType=VARCHAR},
+      address_desc = #{addressDesc,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where address_id = #{addressId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select address_id, address_type, address_lon, address_lat, address_name, address_code, 
+    address_desc, is_del, create_time, update_time
+    from address_info
+    where address_id = #{addressId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select address_id, address_type, address_lon, address_lat, address_name, address_code, 
+    address_desc, is_del, create_time, update_time
+    from address_info
+  </select>
+</mapper>

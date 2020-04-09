@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mobile.mapper.CardInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.CardInfo" >
+    <id column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="card_name" property="cardName" jdbcType="VARCHAR" />
+    <result column="card_code" property="cardCode" jdbcType="VARCHAR" />
+    <result column="card_type_id" property="cardTypeId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from card_info
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.mobile.model.entity.CardInfo" >
+    insert into card_info (card_id, card_name, card_code, 
+      card_type_id, create_time, update_time
+      )
+    values (#{cardId,jdbcType=VARCHAR}, #{cardName,jdbcType=VARCHAR}, #{cardCode,jdbcType=VARCHAR}, 
+      #{cardTypeId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.CardInfo" >
+    update card_info
+    set card_name = #{cardName,jdbcType=VARCHAR},
+      card_code = #{cardCode,jdbcType=VARCHAR},
+      card_type_id = #{cardTypeId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select card_id, card_name, card_code, card_type_id, create_time, update_time
+    from card_info
+    where card_id = #{cardId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select card_id, card_name, card_code, card_type_id, create_time, update_time
+    from card_info
+  </select>
+</mapper>

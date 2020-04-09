@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    6个优先级从高到低依次为：OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 ALL。
+    如果设置优先级为WARN，那么OFF、FATAL、ERROR、WARN 4个级别的log能正常输出
+    设置为OFF 表示不记录log4j2本身的日志，
+ -->
+
+<!-- status：用来指定log4j本身的打印日志级别,
+    monitorInterval:指定log4j自动重新配置的监测间隔时间 -->
+<Configuration status="OFF" monitorInterval="30">
+    <Properties>
+        <!-- *必须并强制遵守 日志文件的编码 -->
+              <property name="log_charset" value="UTF-8" />
+             <property name="log_pattern" value="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] [%t] [%c] - %l - %m%n" />
+
+        <property name="file_pattern" value="%d{yyyy-MM-dd}" />
+        <!--  info 地址 -->
+        <property name="log.info.path" value="D:/boot/log/info" />
+        <property name="log.info.file" value="D:/boot/log/info/info.log" />
+
+        <!-- errr,错误路径 -->
+        <property name="log.error.path" value="D:/boot/log/error" />
+        <property name="log.error.file" value="D:/boot/log/error/error.log" />
+    </Properties>
+    <!-- 自己设置属性，后面通过${}来访问 -->
+
+    <appenders>
+        <!--Appender 1. 输出到Console控制台，指定输出格式和过滤器等级为INFO -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--ThresholdFilter指定日志消息的输出最低层次-->
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="ACCEPT"/>
+            <!-- 日志格式 -->
+            <PatternLayout pattern="${log_pattern}"/>
+        </Console>
+
+        <!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用-->
+        <!-- <File name="allLog" fileName="${LOG_HOME}/all.log">
+             <ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+             <PatternLayout charset="UTF-8" pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+         </File>-->
+
+
+        <!--Appender 3. 输出到滚动保存的文件, 触发保存日志文件的条件每天保存一份-->
+        <RollingFile name="info" fileName="${log.info.file}" filePattern="${log.info.path}/${file_pattern}.log">
+            <!--  日志输出级别 -->
+            <Filters>
+                <!--
+                    DENY     不匹配该级别及以上级别
+                    ACCEPT   匹配该级别及以上级别
+                    NEUTRAL  交给下一个filter处理
+                -->
+                <!-- 配置info.log不打印error日志 -->
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <!-- 日志输出编码、格式 -->
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+            <!-- 设置文件大小 -->
+            <!--<SizeBasedTriggeringPolicy size="3KB"/>-->
+            <!-- 设置保留的文件个数-->
+            <!--<DefaultRolloverStrategy max="10"/>-->
+
+            <!--日志文件最大值  指定滚动日志的策略，就是什么时候进行新建日志文件输出日志.-->
+            <Policies>
+                <!-- 基于时间的滚动策略 modulate=true  控制是否允许调节（默认一个小时）
+                integer）该属性是相对 RollingFile.filePattern 中的
+                %d{yyyy-MM-dd}值,例：
+                filePattern=”xxx%d{yyyy-MM-dd}xx” interval=”2” 表示将2天一个日志文件；
+                filePattern=”xxx%d{yyyy-MM-dd-HH}xx” interval=”1”表示一个小时一个日志文件
+                -->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <!-- 基于指定文件大小的滚动策略 size属性用来定义每个日志文件的大小. -->
+                <!--<SizeBasedTriggeringPolicy size="10 MB"/>-->
+            </Policies>
+        </RollingFile>
+
+        <!--Appender 4. 输出到滚动保存的文件, 触发保存日志文件的条件是大于100M。ERROR日志是按分钟产生日志 -->
+        <RollingFile name="error" fileName="${log.error.file}" filePattern="${log.info.path}/${file_pattern}.log">
+            <!-- 日志打印级别 -->
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 日志输出编码、格式 -->
+            <PatternLayout charset="${log_charset}" pattern="${log_pattern}"/>
+
+            <!--日志文件最大值  指定滚动日志的策略，就是什么时候进行新建日志文件输出日志.-->
+            <Policies>
+                <!-- 基于时间的滚动策略 modulate=true  控制是否允许调节（默认一个小时）
+                integer）该属性是相对 RollingFile.filePattern 中的
+                %d{yyyy-MM-dd}值,例：
+                filePattern=”xxx%d{yyyy-MM-dd}xx” interval=”2” 表示将2天一个日志文件；
+                filePattern=”xxx%d{yyyy-MM-dd-HH}xx” interval=”1”表示一个小时一个日志文件
+                -->
+                <!-- 基于指定文件大小的滚动策略 size属性用来定义每个日志文件的大小. -->
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+
+
+    </appenders>
+    <!--定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <logger name="org.mybatis" level="ERROR" />
+        <logger name="com.zaxxer.hikari" level="ERROR"/>
+        <logger name="org.apache" level="ERROR" />
+        <!--<logger name="org.apache.zookeeper.ClientCnxn" level="ERROR" />-->
+        <logger name="org.hibernate" level="ERROR" />
+        <logger name="org.springframework" level="ERROR"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG"/>
+        <logger name="com.alibaba.dubbo" level="ERROR"/>
+        <logger name="io.netty" level="ERROR" />
+        <logger name="io.lettuce.core" level="ERROR" />
+
+        <root level="DEBUG">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="info"/>
+            <appender-ref ref="error"/>
+        </root>
+    </loggers>
+</Configuration>
