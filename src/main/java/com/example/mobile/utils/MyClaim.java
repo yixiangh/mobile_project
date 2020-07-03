@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class MyClaim {
 
-    private String userId;
+    private Long userId;
     private String userName;
 
 }

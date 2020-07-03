@@ -59,7 +59,7 @@ public class LoginController {
         sysUser.setUserPassword(password);
         SysUser loginUser = userService.getLoginUserInfo(sysUser);
         //创建JWTToken并返回
-        ShiroClaim claims = new ShiroClaim();
+        MyClaim claims = new MyClaim();
         claims.setUserId(loginUser.getUserId());
         claims.setUserName(loginUser.getUserName());
         String token = JwtUtil.encodeToken(claims);
