@@ -2,7 +2,6 @@ package com.example.mobile.base.exception;
 
 import com.example.mobile.utils.PropertiesUtil;
 import lombok.Data;
-import org.springframework.core.env.Environment;
 
 /**
  * 自定义异常
@@ -21,19 +20,17 @@ public class SystemException extends RuntimeException {
      */
     private String errorDes;
 
-    public SystemException()
-    {
+    public SystemException() {
         super();
     }
 
-    public SystemException(int errorCode)
-    {
+    public SystemException(int errorCode) {
         super(PropertiesUtil.getString(errorCode));
         this.errorCode = errorCode;
         this.errorDes = PropertiesUtil.getString(errorCode);
     }
-    public SystemException(int errorCode,String errorDes)
-    {
+
+    public SystemException(int errorCode, String errorDes) {
         super(errorDes);
         this.errorCode = errorCode;
         this.errorDes = errorDes;

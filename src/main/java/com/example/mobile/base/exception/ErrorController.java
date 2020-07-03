@@ -30,9 +30,9 @@ public class ErrorController extends BasicErrorController {
         HttpStatus status = getStatus(request);
         int code = status.value();  //status.value():错误代码
         String msg = body.get("message").toString(); //body.get("message").toString()错误信息
-        Map<String,Object> result = new HashMap<>();//自定义的错误信息类
-        result.put("code",code);
-        result.put("msg",msg);
+        Map<String, Object> result = new HashMap<>();//自定义的错误信息类
+        result.put("code", code);
+        result.put("msg", msg);
         //TokenException Filter抛出的自定义错误类
         if (!StringUtils.isEmpty((String) body.get("exception")) && body.get("exception").equals(Exception.class.getName())) {
             body.put("status", HttpStatus.FORBIDDEN.value());

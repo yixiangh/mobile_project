@@ -10,17 +10,19 @@
 <Configuration status="OFF" monitorInterval="30">
     <Properties>
         <!-- *必须并强制遵守 日志文件的编码 -->
-              <property name="log_charset" value="UTF-8" />
-             <property name="log_pattern" value="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] [%t] [%c] - %l - %m%n" />
+           
+        <property name="log_charset" value="UTF-8"/>
+             
+        <property name="log_pattern" value="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] [%t] [%c] - %l - %m%n"/>
 
-        <property name="file_pattern" value="%d{yyyy-MM-dd}" />
+        <property name="file_pattern" value="%d{yyyy-MM-dd}"/>
         <!--  info 地址 -->
-        <property name="log.info.path" value="D:/boot/log/info" />
-        <property name="log.info.file" value="D:/boot/log/info/info.log" />
+        <property name="log.info.path" value="D:/boot/log/info"/>
+        <property name="log.info.file" value="D:/boot/log/info/info.log"/>
 
         <!-- errr,错误路径 -->
-        <property name="log.error.path" value="D:/boot/log/error" />
-        <property name="log.error.file" value="D:/boot/log/error/error.log" />
+        <property name="log.error.path" value="D:/boot/log/error"/>
+        <property name="log.error.file" value="D:/boot/log/error/error.log"/>
     </Properties>
     <!-- 自己设置属性，后面通过${}来访问 -->
 
@@ -100,16 +102,16 @@
     <!--定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
-        <logger name="org.mybatis" level="ERROR" />
+        <logger name="org.mybatis" level="ERROR"/>
         <logger name="com.zaxxer.hikari" level="ERROR"/>
-        <logger name="org.apache" level="ERROR" />
+        <logger name="org.apache" level="ERROR"/>
         <!--<logger name="org.apache.zookeeper.ClientCnxn" level="ERROR" />-->
-        <logger name="org.hibernate" level="ERROR" />
+        <logger name="org.hibernate" level="ERROR"/>
         <logger name="org.springframework" level="ERROR"/>
         <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG"/>
         <logger name="com.alibaba.dubbo" level="ERROR"/>
-        <logger name="io.netty" level="ERROR" />
-        <logger name="io.lettuce.core" level="ERROR" />
+        <logger name="io.netty" level="ERROR"/>
+        <logger name="io.lettuce.core" level="ERROR"/>
 
         <root level="DEBUG">
             <appender-ref ref="Console"/>

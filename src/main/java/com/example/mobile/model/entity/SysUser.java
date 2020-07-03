@@ -1,5 +1,8 @@
 package com.example.mobile.model.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.example.mobile.model.vo.Pager;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -11,12 +14,13 @@ import java.util.Date;
  * 系统用户
  */
 @Data
-public class SysUser implements Serializable {
+public class SysUser extends Pager implements Serializable {
 
     /**
      * 主键id
      */
-    private String userId;
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long userId;
     /**
      * 系统用户登录账户
      */
@@ -44,13 +48,13 @@ public class SysUser implements Serializable {
      */
     private String userPhone;
     /**
-     * 用户状态（1：正常，2：已锁定）
+     * 用户状态(1：正常，2：已锁定）
      */
     private int userStatus;
     /**
-     * 逻辑删除（1：正常，2：已删除）
+     * 逻辑删除（N：正常，Y：已删除）
      */
-    private int isDel;
+    private String isDel;
     private Date updateTime;
     private Date createTime;
 

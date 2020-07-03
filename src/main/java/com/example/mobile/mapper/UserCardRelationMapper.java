@@ -1,6 +1,7 @@
 package com.example.mobile.mapper;
 
 import com.example.mobile.model.entity.UserCardRelation;
+
 import java.util.List;
 
 public interface UserCardRelationMapper {

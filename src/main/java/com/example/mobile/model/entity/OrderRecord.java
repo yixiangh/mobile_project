@@ -10,13 +10,13 @@ import java.util.Date;
  */
 @Data
 public class OrderRecord implements Serializable {
-    private String orderId;
+    private Long orderId;
 
     private String orderName;
 
     private String orderDesc;
 
-    private String userId;
+    private Long userId;
 
     private Integer orderStatus;
 

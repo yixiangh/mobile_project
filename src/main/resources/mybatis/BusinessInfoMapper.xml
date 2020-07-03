@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mobile.mapper.BusinessInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.BusinessInfo" >
-    <id column="busniess_id" property="busniessId" jdbcType="INTEGER" />
-    <result column="business_name" property="businessName" jdbcType="VARCHAR" />
-    <result column="business_code" property="businessCode" jdbcType="VARCHAR" />
-    <result column="business_type" property="businessType" jdbcType="INTEGER" />
-    <result column="business_address" property="businessAddress" jdbcType="VARCHAR" />
-    <result column="business_status" property="businessStatus" jdbcType="INTEGER" />
-    <result column="is_del" property="isDel" jdbcType="INTEGER" />
-    <result column="business_man" property="businessMan" jdbcType="VARCHAR" />
-    <result column="business_phone" property="businessPhone" jdbcType="VARCHAR" />
-    <result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from business_info
-    where busniess_id = #{busniessId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.example.mobile.model.entity.BusinessInfo" >
-    insert into business_info (busniess_id, business_name, business_code, 
-      business_type, business_address, business_status, 
-      is_del, business_man, business_phone, 
-      business_license, create_time, update_time
-      )
-    values (#{busniessId,jdbcType=INTEGER}, #{businessName,jdbcType=VARCHAR}, #{businessCode,jdbcType=VARCHAR}, 
-      #{businessType,jdbcType=INTEGER}, #{businessAddress,jdbcType=VARCHAR}, #{businessStatus,jdbcType=INTEGER}, 
-      #{isDel,jdbcType=INTEGER}, #{businessMan,jdbcType=VARCHAR}, #{businessPhone,jdbcType=VARCHAR}, 
-      #{businessLicense,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.BusinessInfo" >
-    update business_info
-    set business_name = #{businessName,jdbcType=VARCHAR},
-      business_code = #{businessCode,jdbcType=VARCHAR},
-      business_type = #{businessType,jdbcType=INTEGER},
-      business_address = #{businessAddress,jdbcType=VARCHAR},
-      business_status = #{businessStatus,jdbcType=INTEGER},
-      is_del = #{isDel,jdbcType=INTEGER},
-      business_man = #{businessMan,jdbcType=VARCHAR},
-      business_phone = #{businessPhone,jdbcType=VARCHAR},
-      business_license = #{businessLicense,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where busniess_id = #{busniessId,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select busniess_id, business_name, business_code, business_type, business_address, 
-    business_status, is_del, business_man, business_phone, business_license, create_time, 
-    update_time
-    from business_info
-    where busniess_id = #{busniessId,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select busniess_id, business_name, business_code, business_type, business_address, 
-    business_status, is_del, business_man, business_phone, business_license, create_time, 
-    update_time
-    from business_info
-  </select>
+<mapper namespace="com.example.mobile.mapper.BusinessInfoMapper">
+    <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.BusinessInfo">
+        <id column="busniess_id" property="busniessId" jdbcType="BIGINT"/>
+        <result column="business_name" property="businessName" jdbcType="VARCHAR"/>
+        <result column="business_code" property="businessCode" jdbcType="VARCHAR"/>
+        <result column="business_type" property="businessType" jdbcType="INTEGER"/>
+        <result column="business_address" property="businessAddress" jdbcType="VARCHAR"/>
+        <result column="business_status" property="businessStatus" jdbcType="INTEGER"/>
+        <result column="is_del" property="isDel" jdbcType="CHAR"/>
+        <result column="business_man" property="businessMan" jdbcType="VARCHAR"/>
+        <result column="business_phone" property="businessPhone" jdbcType="VARCHAR"/>
+        <result column="business_license" property="businessLicense" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from business_info
+        where busniess_id = #{busniessId}
+    </delete>
+    <insert id="insert" parameterType="com.example.mobile.model.entity.BusinessInfo">
+        insert into business_info (busniess_id, business_name, business_code,
+        business_type, business_address, business_status,
+        is_del, business_man, business_phone,
+        business_license, create_time, update_time
+        )
+        values (#{busniessId}, #{businessName,jdbcType=VARCHAR}, #{businessCode,jdbcType=VARCHAR},
+        #{businessType,jdbcType=INTEGER}, #{businessAddress,jdbcType=VARCHAR}, #{businessStatus,jdbcType=INTEGER},
+        #{isDel}, #{businessMan,jdbcType=VARCHAR}, #{businessPhone,jdbcType=VARCHAR},
+        #{businessLicense,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.BusinessInfo">
+        update business_info
+        set business_name = #{businessName,jdbcType=VARCHAR},
+        business_code = #{businessCode,jdbcType=VARCHAR},
+        business_type = #{businessType,jdbcType=INTEGER},
+        business_address = #{businessAddress,jdbcType=VARCHAR},
+        business_status = #{businessStatus,jdbcType=INTEGER},
+        is_del = #{isDel},
+        business_man = #{businessMan,jdbcType=VARCHAR},
+        business_phone = #{businessPhone,jdbcType=VARCHAR},
+        business_license = #{businessLicense,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where busniess_id = #{busniessId}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select busniess_id, business_name, business_code, business_type, business_address,
+        business_status, is_del, business_man, business_phone, business_license, create_time,
+        update_time
+        from business_info
+        where busniess_id = #{busniessId}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select busniess_id, business_name, business_code, business_type, business_address,
+        business_status, is_del, business_man, business_phone, business_license, create_time,
+        update_time
+        from business_info
+    </select>
 </mapper>

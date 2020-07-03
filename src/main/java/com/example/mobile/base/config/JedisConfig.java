@@ -37,16 +37,15 @@ public class JedisConfig extends CachingConfigurerSupport {
     private int timeout;
 
     @Bean
-    public JedisPool jedisPoolFactory()
-    {
+    public JedisPool jedisPoolFactory() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         jedisPoolConfig.setMaxTotal(maxActive);
         jedisPoolConfig.setMinIdle(minIdle);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,timeout,null);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, null);
         log.info("JedisPool注入成功！");
-        log.info("redis地址："+host+":"+port);
+        log.info("redis地址：" + host + ":" + port);
         return jedisPool;
     }
 

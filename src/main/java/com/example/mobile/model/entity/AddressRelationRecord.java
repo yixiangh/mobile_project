@@ -10,9 +10,9 @@ import java.util.Date;
  */
 @Data
 public class AddressRelationRecord implements Serializable {
-    private Integer userAddressId;
+    private Long userAddressId;
 
-    private Integer relationId;
+    private Long relationId;
 
     private String addrProvince;
 

@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Data
 public class AddressInfo implements Serializable {
-    private String addressId;
+    private Long addressId;
 
     private Integer addressType;
 
@@ -24,7 +24,7 @@ public class AddressInfo implements Serializable {
 
     private String addressDesc;
 
-    private Integer isDel;
+    private String isDel;
 
     private Date createTime;
 

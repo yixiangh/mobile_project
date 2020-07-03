@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mobile.mapper.CardTypeMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.CardType" >
-    <id column="type_id" property="typeId" jdbcType="VARCHAR" />
-    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
-    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
-    <result column="type_desc" property="typeDesc" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from card_type
-    where type_id = #{typeId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.example.mobile.model.entity.CardType" >
-    insert into card_type (type_id, type_name, type_code, 
-      type_desc, create_time, update_time
-      )
-    values (#{typeId,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR}, 
-      #{typeDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.CardType" >
-    update card_type
-    set type_name = #{typeName,jdbcType=VARCHAR},
-      type_code = #{typeCode,jdbcType=VARCHAR},
-      type_desc = #{typeDesc,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where type_id = #{typeId,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select type_id, type_name, type_code, type_desc, create_time, update_time
-    from card_type
-    where type_id = #{typeId,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select type_id, type_name, type_code, type_desc, create_time, update_time
-    from card_type
-  </select>
+<mapper namespace="com.example.mobile.mapper.CardTypeMapper">
+    <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.CardType">
+        <id column="type_id" property="typeId" jdbcType="BIGINT"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
+        <result column="type_desc" property="typeDesc" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from card_type
+        where type_id = #{typeId}
+    </delete>
+    <insert id="insert" parameterType="com.example.mobile.model.entity.CardType">
+        insert into card_type (type_id, type_name, type_code,
+        type_desc, create_time, update_time
+        )
+        values (#{typeId}, #{typeName,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR},
+        #{typeDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.CardType">
+        update card_type
+        set type_name = #{typeName,jdbcType=VARCHAR},
+        type_code = #{typeCode,jdbcType=VARCHAR},
+        type_desc = #{typeDesc,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where type_id = #{typeId}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select type_id, type_name, type_code, type_desc, create_time, update_time
+        from card_type
+        where type_id = #{typeId}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select type_id, type_name, type_code, type_desc, create_time, update_time
+        from card_type
+    </select>
 </mapper>

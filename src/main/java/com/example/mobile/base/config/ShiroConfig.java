@@ -1,23 +1,20 @@
 package com.example.mobile.base.config;
 
-import com.example.mobile.base.constant.JwtConstant;
 import com.example.mobile.base.filter.JwtFilter;
+import com.example.mobile.constance.JwtConstant;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionsSecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -28,29 +25,17 @@ import java.util.Map;
  */
 @Configuration
 @Slf4j
-@AutoConfigurationPackage
 public class ShiroConfig {
-
-    @Value("${spring.redis.host}")
-    private String host;
-    @Value(value = "${spring.redis.port}")
-    private int port;
-    @Value(value = "${spring.redis.timeout}")
-    private int timeout;
-//    @Value(value = "${spring.redis.password}")
-//    private String password;
-    @Value(value = "${spring.redis.expire}")
-    private int expire;
 
     /**
      * 拦截器链（用于注册自定义的拦截器）
      * @param securityManager
      * @return
      */
-    @Bean(name = "shiroFilterFactoryBean")//此处一定要设置name=shiroFilterFactoryBean 否则会报错：Consider defining a bean named 'shiroFilterFactoryBean' in your configuration.
-    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager)
-    {
-        ShiroFilterFactoryBean  shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+    @Bean(name = "shiroFilterFactoryBean")
+//此处一定要设置name=shiroFilterFactoryBean 否则会报错：Consider defining a bean named 'shiroFilterFactoryBean' in your configuration.
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
@@ -70,15 +55,20 @@ public class ShiroConfig {
      * @return
      */
     @Bean(name = "securityManager")// 容器中自动配置了SecurityManager  所以我们使用SessionSecurityManager 覆盖
-    public SessionsSecurityManager securityManager()
-    {
+    public SessionsSecurityManager securityManager() {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         //自定义Realm
         defaultWebSecurityManager.setRealm(getRealm());
-        //自定义缓存 使用redis
-        defaultWebSecurityManager.setCacheManager(cacheManager());
-        //自定义session管理 使用redis
-        defaultWebSecurityManager.setSessionManager(sessionManager());
+        /*
+         * 关闭shiro自带的session，详情见文档
+         * http://shiro.apache.org/session-management.html#SessionManagement-
+         * StatelessApplications%28Sessionless%29
+         */
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        defaultWebSecurityManager.setSubjectDAO(subjectDAO);
         return defaultWebSecurityManager;
     }
 
@@ -88,17 +78,21 @@ public class ShiroConfig {
      * 注意：Map中key和value类型必须为String
      * @return
      */
-    public Map<String,String> definitionMap()
-    {
-        Map<String,String> definitionMap = new HashMap<>();
+    public Map<String, String> definitionMap() {
+        Map<String, String> definitionMap = new HashMap<>();
         //游客，开发权限
 //        definitionMap.put("/guest/**", "anon");
-        //用户，需要角色权限 “user”
-//        filterMap.put("/user/**", "roles[user]");
-        //管理员，需要角色权限 “admin”
-//        definitionMap.put("/admin/**", "roles[admin]");
-        //开放登陆接口
-        definitionMap.put("/login", "anon");
+        // 配置不会被拦截的链接 顺序判断
+        definitionMap.put("/login", "anon"); //登录接口排除
+        definitionMap.put("/logout", "anon"); //登出接口排除
+        definitionMap.put("/getCheckCode", "anon"); //登出接口排除
+        definitionMap.put("/", "anon");
+        definitionMap.put("/**/*.js", "anon");
+        definitionMap.put("/**/*.css", "anon");
+        definitionMap.put("/**/*.html", "anon");
+        definitionMap.put("/**/*.jpg", "anon");
+        definitionMap.put("/**/*.png", "anon");
+        definitionMap.put("/**/*.ico", "anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
 //        definitionMap.put("/**", "authc");
@@ -141,61 +135,14 @@ public class ShiroConfig {
      * @return
      */
     @Bean
-    public MyRealm getRealm()
-    {
+    public MyRealm getRealm() {
         return new MyRealm();
     }
 
-    /**
-     * cacheManager 缓存 redis实现
-     * 使用的是shiro-redis开源插件
-     *
-     * @return
-     */
-     public RedisCacheManager cacheManager()
-     {
-        RedisCacheManager redisCacheManager = new RedisCacheManager();
-        redisCacheManager.setRedisManager(redisManager());
-        return redisCacheManager;
-     }
-
-     public RedisManager redisManager()
-     {
-         RedisManager redisManager = new RedisManager();
-         redisManager.setHost(new RedisConfigEntity().getHost());
-         redisManager.setPort(port);
-         redisManager.setTimeout(timeout);
-//         redisManager.setPassword();
-         redisManager.setExpire(expire);
-         return redisManager;
-     }
-
-    /**
-     * Session Manager
-     * 使用的是shiro-redis开源插件
-     * @return
-     */
-     @Bean
-     public DefaultWebSessionManager sessionManager()
-     {
-         DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
-         defaultWebSessionManager.setSessionDAO(redisSessionDAO());
-         return  defaultWebSessionManager;
-     }
-
-    /**
-     * RedisSessionDAO shiro sessionDao层的实现 通过redis
-     * 使用的是shiro-redis开源插件
-     */
     @Bean
-    public RedisSessionDAO redisSessionDAO() {
-        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setRedisManager(redisManager());
-        return redisSessionDAO;
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
-
-
-
 
 
 }

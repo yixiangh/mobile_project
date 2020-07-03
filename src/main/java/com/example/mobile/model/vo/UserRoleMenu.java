@@ -13,10 +13,10 @@ import java.util.Set;
 @Data
 public class UserRoleMenu {
 
-    private String userId;
+    private Long userId;
     private String userName;
     private String userRealName;
     private Set<String> roles;
     private Set<String> menus;
-    private int isDel;
+    private String isDel;
 }

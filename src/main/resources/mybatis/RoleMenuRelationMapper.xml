@@ -1,38 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mobile.mapper.RoleMenuRelationMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.RoleMenuRelation" >
-    <id column="role_menu_id" property="roleMenuId" jdbcType="VARCHAR" />
-    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
-    <result column="menu_id" property="menuId" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from role_menu-relation
-    where role_menu_id = #{roleMenuId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.example.mobile.model.entity.RoleMenuRelation" >
-    insert into role_menu-relation (role_menu_id, role_id, menu_id, 
-      create_time, update_time)
-    values (#{roleMenuId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.RoleMenuRelation" >
-    update role_menu-relation
-    set role_id = #{roleId,jdbcType=VARCHAR},
-      menu_id = #{menuId,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where role_menu_id = #{roleMenuId,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select role_menu_id, role_id, menu_id, create_time, update_time
-    from role_menu-relation
-    where role_menu_id = #{roleMenuId,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select role_menu_id, role_id, menu_id, create_time, update_time
-    from role_menu-relation
-  </select>
+<mapper namespace="com.example.mobile.mapper.RoleMenuRelationMapper">
+    <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.RoleMenuRelation">
+        <id column="role_menu_id" property="roleMenuId" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+        <result column="menu_id" property="menuId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="ResultMenu" type="com.example.mobile.model.entity.MenuInfo">
+        <id column="menu_id" property="menuId" jdbcType="BIGINT"/>
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <result column="menu_type" property="menuType" jdbcType="INTEGER"/>
+        <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR"/>
+        <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="menu_code" property="menuCode" jdbcType="VARCHAR"/>
+        <result column="menu_order" property="menuOrder" jdbcType="INTEGER"/>
+        <result column="is_del" property="isDel" jdbcType="CHAR"/>
+    </resultMap>
+    <delete id="deleteByRole" parameterType="java.lang.Long">
+        delete from role_menu_relation
+        where role_id = #{roleId}
+    </delete>
+    <insert id="insert" parameterType="com.example.mobile.model.entity.RoleMenuRelation">
+        insert into role_menu_relation (role_menu_id, role_id, menu_id,
+        create_time, create_by)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleMenuId},#{item.roleId},#{item.menuId},#{item.createTime},#{item.createBy})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.RoleMenuRelation">
+        update role_menu_relation
+        set role_id = #{roleId},
+        menu_id = #{menuId},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_by = #{createBy}
+        where role_menu_id = #{roleMenuId}
+    </update>
+
+    <select id="getMenuByRole" resultMap="ResultMenu" parameterType="SysRole">
+        SELECT
+        menu.menu_id,
+        menu.menu_name,
+        menu.menu_code,
+        menu.menu_order,
+        menu.parent_id
+        FROM
+        role_menu_relation rmr
+        LEFT JOIN menu_info menu ON rmr.menu_id = menu.menu_id
+        WHERE rmr.role_id = #{roleId} AND menu.is_del = #{isDel}
+    </select>
 </mapper>

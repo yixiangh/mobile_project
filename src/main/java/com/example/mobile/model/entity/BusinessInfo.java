@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Data
 public class BusinessInfo implements Serializable {
-    private Integer busniessId;
+    private Long busniessId;
 
     private String businessName;
 
@@ -22,7 +22,7 @@ public class BusinessInfo implements Serializable {
 
     private Integer businessStatus;
 
-    private Integer isDel;
+    private String isDel;
 
     private String businessMan;
 

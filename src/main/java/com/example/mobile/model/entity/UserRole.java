@@ -1,5 +1,7 @@
 package com.example.mobile.model.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,11 +12,13 @@ import java.util.Date;
  */
 @Data
 public class UserRole implements Serializable {
-    private Integer userRoleId;
 
-    private Integer userId;
-
-    private Integer roleId;
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long userRoleId;
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long userId;
+    @JSONField(serializeUsing = ToStringSerializer.class)
+    private Long roleId;
 
     private Date createTime;
 

@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mobile.mapper.UserRoleRelationMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.UserRoleRelation" >
-    <id column="user_role_id" property="userRoleId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="role_id" property="roleId" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user_role_relation
-    where user_role_id = #{userRoleId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.example.mobile.model.entity.UserRoleRelation" >
-    insert into user_role_relation (user_role_id, user_id, role_id, 
-      create_time, update_time)
-    values (#{userRoleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.UserRoleRelation" >
-    update user_role_relation
-    set user_id = #{userId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where user_role_id = #{userRoleId,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select user_role_id, user_id, role_id, create_time, update_time
-    from user_role_relation
-    where user_role_id = #{userRoleId,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select user_role_id, user_id, role_id, create_time, update_time
-    from user_role_relation
-  </select>
+<mapper namespace="com.example.mobile.mapper.UserRoleRelationMapper">
+    <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.UserRoleRelation">
+        <id column="user_role_id" property="userRoleId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from user_role_relation
+        where user_role_id = #{userRoleId}
+    </delete>
+    <insert id="insert" parameterType="com.example.mobile.model.entity.UserRoleRelation">
+        insert into user_role_relation (user_role_id, user_id, role_id,
+        create_time, update_time)
+        values (#{userRoleId}, #{userId}, #{roleId},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="edit" parameterType="com.example.mobile.model.entity.UserRoleRelation">
+        update user_role_relation
+        set user_id = #{userId},
+        role_id = #{roleId},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where user_role_id = #{userRoleId}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select user_role_id, user_id, role_id, create_time, update_time
+        from user_role_relation
+        where user_role_id = #{userRoleId}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select user_role_id, user_id, role_id, create_time, update_time
+        from user_role_relation
+    </select>
 </mapper>

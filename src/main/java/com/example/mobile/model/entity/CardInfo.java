@@ -10,13 +10,13 @@ import java.util.Date;
  */
 @Data
 public class CardInfo implements Serializable {
-    private String cardId;
+    private Long cardId;
 
     private String cardName;
 
     private String cardCode;
 
-    private String cardTypeId;
+    private Long cardTypeId;
 
     private Date createTime;
 

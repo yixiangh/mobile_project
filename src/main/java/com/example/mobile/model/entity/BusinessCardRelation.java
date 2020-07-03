@@ -10,11 +10,11 @@ import java.util.Date;
  */
 @Data
 public class BusinessCardRelation implements Serializable {
-    private String businessCardId;
+    private Long businessCardId;
 
-    private String businessId;
+    private Long businessId;
 
-    private String cardId;
+    private Long cardId;
 
     private Integer cardNum;
 

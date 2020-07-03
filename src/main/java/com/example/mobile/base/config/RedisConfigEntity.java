@@ -17,8 +17,7 @@ public class RedisConfigEntity {
     @Value(value = "${spring.redis.expire}")
     private int expire;
 
-    public String getHost()
-    {
+    public String getHost() {
         return host;
     }
 }

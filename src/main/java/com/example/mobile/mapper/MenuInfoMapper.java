@@ -2,20 +2,22 @@ package com.example.mobile.mapper;
 
 import com.example.mobile.model.entity.MenuInfo;
 import com.example.mobile.model.entity.SysRole;
+import com.github.pagehelper.Page;
 
-import javax.management.relation.RoleInfo;
 import java.util.List;
 
 public interface MenuInfoMapper {
-    int deleteByPrimaryKey(String menuId);
-
     int insert(MenuInfo record);
 
-    MenuInfo selectByPrimaryKey(String menuId);
+    MenuInfo selectByPrimaryKey(Long menuId);
 
-    List<MenuInfo> selectAll();
+    int edit(MenuInfo record);
 
-    int updateByPrimaryKey(MenuInfo record);
+    List<MenuInfo> getMenusByRoles(List<SysRole> roleList, String isDel);
 
-    List<MenuInfo> getMenusByRoles(List<SysRole> roleList, int isDel);
+    Page<MenuInfo> getMenuList(MenuInfo menu);
+
+    int delete(MenuInfo menu);
+
+    List<MenuInfo> getMenuListForTree(MenuInfo menu);
 }

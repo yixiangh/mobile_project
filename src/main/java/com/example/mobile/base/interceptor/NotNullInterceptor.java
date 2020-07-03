@@ -1,7 +1,6 @@
 package com.example.mobile.base.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.mobile.utils.NotNull;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -28,25 +27,25 @@ public class NotNullInterceptor extends HandlerInterceptorAdapter {
         {
             return true;
         }
-        HandlerMethod handlerMethod = (HandlerMethod) obj;
-        NotNull notNulla = handlerMethod.getMethodAnnotation(NotNull.class);
-        Method method = handlerMethod.getMethod();
-        if (method.getAnnotation(NotNull.class) != null)
-        {
-            NotNull notNull = method.getAnnotation(NotNull.class);
-            String param = notNull.param();
-            //从HttpServletRequest获取注解上指定参数
-            Object paramVal = request.getParameter(param);
-            if (null != paramVal)
-            {
-                return true;
-            }else
-            {
-                response.getWriter().write(JSONObject.toJSONString("参数不能为空！"));
-                return false;
-            }
-        }else
-        {
+//        HandlerMethod handlerMethod = (HandlerMethod) obj;
+//        NotNull notNulla = handlerMethod.getMethodAnnotation(NotNull.class);
+//        Method method = handlerMethod.getMethod();
+//        if (method.getAnnotation(NotNull.class) != null)
+//        {
+//            NotNull notNull = method.getAnnotation(NotNull.class);
+//            String param = notNull.param();
+//            //从HttpServletRequest获取注解上指定参数
+//            Object paramVal = request.getParameter(param);
+//            if (null != paramVal)
+//            {
+//                return true;
+//            }else
+//            {
+//                response.getWriter().write(JSONObject.toJSONString("参数不能为空！"));
+//                return false;
+//            }
+//        }
+        else {
 //            return false;
             return true;
         }

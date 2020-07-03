@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Data
 public class CardType implements Serializable {
-    private String typeId;
+    private Long typeId;
 
     private String typeName;
 

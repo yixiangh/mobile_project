@@ -1,72 +1,114 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mobile.mapper.MenuInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.MenuInfo" >
-    <id column="menu_id" property="menuId" jdbcType="VARCHAR" />
-    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
-    <result column="menu_type" property="menuType" jdbcType="INTEGER" />
-    <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
-    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
-    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
-    <result column="menu_order" property="menuOrder" jdbcType="INTEGER" />
-    <result column="is_del" property="isDel" jdbcType="INTEGER" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from menu_info
-    where menu_id = #{menuId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.example.mobile.model.entity.MenuInfo" >
-    insert into menu_info (menu_id, menu_name, menu_type, 
-      menu_icon, menu_url, parent_id, 
-      menu_code, menu_order, is_del
-      )
-    values (#{menuId,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{menuType,jdbcType=INTEGER}, 
-      #{menuIcon,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
-      #{menuCode,jdbcType=VARCHAR}, #{menuOrder,jdbcType=INTEGER}, #{isDel,jdbcType=INTEGER}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.MenuInfo" >
-    update menu_info
-    set menu_name = #{menuName,jdbcType=VARCHAR},
-      menu_type = #{menuType,jdbcType=INTEGER},
-      menu_icon = #{menuIcon,jdbcType=VARCHAR},
-      menu_url = #{menuUrl,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=VARCHAR},
-      menu_code = #{menuCode,jdbcType=VARCHAR},
-      menu_order = #{menuOrder,jdbcType=INTEGER},
-      is_del = #{isDel,jdbcType=INTEGER}
-    where menu_id = #{menuId,jdbcType=VARCHAR}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select menu_id, menu_name, menu_type, menu_icon, menu_url, parent_id, menu_code, 
-    menu_order, is_del
-    from menu_info
-    where menu_id = #{menuId,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select menu_id, menu_name, menu_type, menu_icon, menu_url, parent_id, menu_code, 
-    menu_order, is_del
-    from menu_info
-  </select>
+<mapper namespace="com.example.mobile.mapper.MenuInfoMapper">
+    <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.MenuInfo">
+        <id column="menu_id" property="menuId" jdbcType="BIGINT"/>
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <result column="menu_type" property="menuType" jdbcType="INTEGER"/>
+        <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR"/>
+        <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="menu_code" property="menuCode" jdbcType="VARCHAR"/>
+        <result column="menu_order" property="menuOrder" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="is_del" property="isDel" jdbcType="CHAR"/>
+    </resultMap>
+    <update id="delete" parameterType="com.example.mobile.model.entity.MenuInfo">
+        update menu_info
+        set is_del = #{isDel,jdbcType=CHAR},
+        update_time = #{updateTime}
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+    <insert id="insert" parameterType="com.example.mobile.model.entity.MenuInfo">
+        insert into menu_info (menu_id, menu_name, menu_type,
+        menu_icon, menu_url, parent_id,
+        menu_code, menu_order, is_del,create_time,update_time
+        )
+        values (#{menuId,jdbcType=BIGINT}, #{menuName,jdbcType=VARCHAR}, #{menuType,jdbcType=INTEGER},
+        #{menuIcon,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT},
+        #{menuCode,jdbcType=VARCHAR}, #{menuOrder,jdbcType=INTEGER}, #{isDel,jdbcType=CHAR},#{createTime}
+        ,#{updateTime}
+        )
+    </insert>
+    <update id="edit" parameterType="com.example.mobile.model.entity.MenuInfo">
+        update menu_info
+        set menu_name = #{menuName,jdbcType=VARCHAR},
+        menu_type = #{menuType,jdbcType=INTEGER},
+        menu_icon = #{menuIcon,jdbcType=VARCHAR},
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+        parent_id = #{parentId,jdbcType=BIGINT},
+        menu_code = #{menuCode,jdbcType=VARCHAR},
+        menu_order = #{menuOrder,jdbcType=INTEGER},
+        is_del = #{isDel,jdbcType=CHAR},
+        update_time = #{updateTime}
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select menu_id, menu_name, menu_type, menu_icon, menu_url, parent_id, menu_code,
+        menu_order, is_del
+        from menu_info
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </select>
+    <select id="getMenuList" resultMap="BaseResultMap">
+        SELECT
+        menu.menu_id,
+        menu.menu_name,
+        menu.menu_type,
+        menu.menu_icon,
+        menu.menu_url,
+        menu.parent_id,
+        menuParent.menu_name as "parentName",
+        menu.menu_code,
+        menu.menu_order,
+        menu.is_del,
+        menu.create_time,
+        menu.update_time
+        FROM
+        menu_info menu
+        LEFT JOIN menu_info menuParent ON menu.parent_id = menuParent.menu_id
+        <where>
+            <if test="menuName != null and menuName !=''">
+                and menu.menu_name like concat('%',#{menuName},'%')
+            </if>
+            <if test="menuType != null">
+                and menu.menu_type = #{menuType}
+            </if>
+            <if test="parentId != null">
+                and menu.parent_id = #{parentId}
+            </if>
+            and menu.is_del = #{isDel}
+        </where>
+        order by menu.menu_order
+    </select>
 
-  <select id="getMenusByRoles" resultMap="BaseResultMap" parameterType="java.util.List">
-    select
-      menu.menu_id,
-      menu.menu_name,
-      menu.menu_type,
-      menu.menu_icon,
-      menu.menu_url,
-      menu.parent_id,
-      menu.menu_code,
-      menu.menu_order
-    from menu_info menu
-    left join role_menu_relation rmr on rmr.menu_id = menu.menu_id
-    where menu.is_del = #{isDel} and rmr.role_id in
-    <foreach collection="roleList" item="item" open="(" separator="," close=")">
-      #{item.roleId}
-    </foreach>
-  </select>
+    <select id="getMenusByRoles" resultMap="BaseResultMap">
+        SELECT
+        menu_id,
+        menu_url,
+        menu_code,
+        menu_icon,
+        menu_name,
+        menu_order,
+        menu_type
+        FROM
+        menu_info menu
+        LEFT JOIN role_menu_relation rmr ON menu.menu_id = rmr.menu_id
+        WHERE menu.is_del = #{isDel}
+        AND rmr.role_id IN
+        <foreach collection="arrayList" item="item" separator="," open="(" close=")">
+            #{item.roleId}
+        </foreach>
+    </select>
 
-
+    <select id="getMenuListForTree" parameterType="MenuInfo" resultMap="BaseResultMap">
+        SELECT
+        menu.menu_id,
+        menu.menu_name,
+        menu.menu_code,
+        menu.menu_order,
+        menu.parent_id
+        from menu_info menu
+        where menu.is_del = #{isDel}
+    </select>
 </mapper>

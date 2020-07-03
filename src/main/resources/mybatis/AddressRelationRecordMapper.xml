@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mobile.mapper.AddressRelationRecordMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.AddressRelationRecord" >
-    <id column="user_address_id" property="userAddressId" jdbcType="INTEGER" />
-    <result column="relation_id" property="relationId" jdbcType="INTEGER" />
-    <result column="addr_province" property="addrProvince" jdbcType="VARCHAR" />
-    <result column="addr_city" property="addrCity" jdbcType="VARCHAR" />
-    <result column="addr_county" property="addrCounty" jdbcType="VARCHAR" />
-    <result column="addr_township" property="addrTownship" jdbcType="VARCHAR" />
-    <result column="addr_village" property="addrVillage" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
-    <result column="is_del" property="isDel" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from address_relation_record
-    where user_address_id = #{userAddressId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.example.mobile.model.entity.AddressRelationRecord" >
-    insert into address_relation_record (user_address_id, relation_id, addr_province, 
-      addr_city, addr_county, addr_township, 
-      addr_village, phone, contacts, 
-      is_del, create_time, update_time
-      )
-    values (#{userAddressId,jdbcType=INTEGER}, #{relationId,jdbcType=INTEGER}, #{addrProvince,jdbcType=VARCHAR}, 
-      #{addrCity,jdbcType=VARCHAR}, #{addrCounty,jdbcType=VARCHAR}, #{addrTownship,jdbcType=VARCHAR}, 
-      #{addrVillage,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
-      #{isDel,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.AddressRelationRecord" >
-    update address_relation_record
-    set relation_id = #{relationId,jdbcType=INTEGER},
-      addr_province = #{addrProvince,jdbcType=VARCHAR},
-      addr_city = #{addrCity,jdbcType=VARCHAR},
-      addr_county = #{addrCounty,jdbcType=VARCHAR},
-      addr_township = #{addrTownship,jdbcType=VARCHAR},
-      addr_village = #{addrVillage,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      contacts = #{contacts,jdbcType=VARCHAR},
-      is_del = #{isDel,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where user_address_id = #{userAddressId,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select user_address_id, relation_id, addr_province, addr_city, addr_county, addr_township, 
-    addr_village, phone, contacts, is_del, create_time, update_time
-    from address_relation_record
-    where user_address_id = #{userAddressId,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select user_address_id, relation_id, addr_province, addr_city, addr_county, addr_township, 
-    addr_village, phone, contacts, is_del, create_time, update_time
-    from address_relation_record
-  </select>
+<mapper namespace="com.example.mobile.mapper.AddressRelationRecordMapper">
+    <resultMap id="BaseResultMap" type="com.example.mobile.model.entity.AddressRelationRecord">
+        <id column="user_address_id" property="userAddressId" jdbcType="BIGINT"/>
+        <result column="relation_id" property="relationId" jdbcType="BIGINT"/>
+        <result column="addr_province" property="addrProvince" jdbcType="VARCHAR"/>
+        <result column="addr_city" property="addrCity" jdbcType="VARCHAR"/>
+        <result column="addr_county" property="addrCounty" jdbcType="VARCHAR"/>
+        <result column="addr_township" property="addrTownship" jdbcType="VARCHAR"/>
+        <result column="addr_village" property="addrVillage" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="contacts" property="contacts" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="CHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from address_relation_record
+        where user_address_id = #{userAddressId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.example.mobile.model.entity.AddressRelationRecord">
+        insert into address_relation_record (user_address_id, relation_id, addr_province,
+        addr_city, addr_county, addr_township,
+        addr_village, phone, contacts,
+        is_del, create_time, update_time
+        )
+        values (#{userAddressId,jdbcType=BIGINT}, #{relationId,jdbcType=BIGINT}, #{addrProvince,jdbcType=VARCHAR},
+        #{addrCity,jdbcType=VARCHAR}, #{addrCounty,jdbcType=VARCHAR}, #{addrTownship,jdbcType=VARCHAR},
+        #{addrVillage,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR},
+        #{isDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.example.mobile.model.entity.AddressRelationRecord">
+        update address_relation_record
+        set relation_id = #{relationId,jdbcType=BIGINT},
+        addr_province = #{addrProvince,jdbcType=VARCHAR},
+        addr_city = #{addrCity,jdbcType=VARCHAR},
+        addr_county = #{addrCounty,jdbcType=VARCHAR},
+        addr_township = #{addrTownship,jdbcType=VARCHAR},
+        addr_village = #{addrVillage,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        contacts = #{contacts,jdbcType=VARCHAR},
+        is_del = #{isDel,jdbcType=CHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where user_address_id = #{userAddressId,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select user_address_id, relation_id, addr_province, addr_city, addr_county, addr_township,
+        addr_village, phone, contacts, is_del, create_time, update_time
+        from address_relation_record
+        where user_address_id = #{userAddressId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select user_address_id, relation_id, addr_province, addr_city, addr_county, addr_township,
+        addr_village, phone, contacts, is_del, create_time, update_time
+        from address_relation_record
+    </select>
 </mapper>

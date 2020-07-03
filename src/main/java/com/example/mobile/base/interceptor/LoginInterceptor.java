@@ -1,12 +1,6 @@
 package com.example.mobile.base.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
-import com.example.mobile.base.constant.JwtConstant;
-import com.example.mobile.utils.JwtUtil;
-import com.example.mobile.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

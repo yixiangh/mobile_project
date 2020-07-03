@@ -19,22 +19,22 @@ public class WechatConfig {
         String res = getWechatUser(accessToken);
         System.out.println(res);
     }
+
     /**
      * 获取access_token
      * @return
      * @throws Exception
      */
     public static String getAccessToken() throws Exception {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+appsecret;
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appsecret;
         String res = HttpClientUtils.httpGet(url);
         JSONObject jsonObject = new JSONObject();
         String access_token = null;
-        if (StringUtils.isNotEmpty(res))
-        {
+        if (StringUtils.isNotEmpty(res)) {
             jsonObject = JSONObject.parseObject(res);
             access_token = jsonObject.getString("access_token");
             int expiresIn = jsonObject.getIntValue("expires_in");//有效时间，单位/秒
-            new JedisUtils().setString(accessTokenName,access_token,expiresIn);//存入redis
+            new JedisUtils().setString(accessTokenName, access_token, expiresIn);//存入redis
 
         }
         return access_token;
@@ -45,13 +45,12 @@ public class WechatConfig {
      * @return
      */
     public static String getWechatUser(String accessToken) throws Exception {
-        String url = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token="+accessToken;
+        String url = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + accessToken;
         String json = null;
-        String res = HttpClientUtils.httpsPost(url,json);
+        String res = HttpClientUtils.httpsPost(url, json);
 
         return res;
     }
-
 
 
 }

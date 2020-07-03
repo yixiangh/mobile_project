@@ -2,6 +2,10 @@ package com.example.mobile.base.exception;
 
 import com.example.mobile.utils.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,18 +23,36 @@ public class ExceptionCatch {
 
     @ExceptionHandler(value = SystemException.class)//此注解表示定义该方法为全局异常捕获  意为自定义异常一定会被此方法捕获
     @ResponseBody
-    public Result systemExceptionHandle(HttpServletRequest request, HttpServletResponse response,Exception e)
-    {
+    public Result systemExceptionHandle(HttpServletRequest request, HttpServletResponse response, Exception e) {
         SystemException systemException = (SystemException) e;
-        return Result.fial(systemException.getErrorCode(),systemException.getErrorDes());
+        return Result.fial(systemException.getErrorCode(), systemException.getErrorDes());
+    }
+
+    @ExceptionHandler(value = AuthenticationException.class)//此注解表示定义该方法为全局异常捕获  意为自定义异常一定会被此方法捕获
+    @ResponseBody
+    public Result unauthenticatedHandle(HttpServletRequest request, HttpServletResponse response, Exception e) {
+        log.error(e.getStackTrace().toString());
+        if (e instanceof UnknownAccountException) {
+            return Result.fial(1005);
+        }
+        if (e instanceof DisabledAccountException) {
+            return Result.fial(1006);
+        }
+        return Result.fial(500);
+    }
+
+    @ExceptionHandler(value = UnauthorizedException.class)//此注解表示定义该方法为全局异常捕获  意为自定义异常一定会被此方法捕获
+    @ResponseBody
+    public Result unauthorizedHandle(HttpServletRequest request, HttpServletResponse response, Exception e) {
+        log.error(e.getStackTrace().toString());
+        return Result.fial(1006, e.getMessage());
     }
 
     @ExceptionHandler(value = RuntimeException.class)
     @ResponseBody
-    public Result runtimeExceptionHandle(HttpServletRequest request, HttpServletResponse response,Exception e)
-    {
+    public Result runtimeExceptionHandle(HttpServletRequest request, HttpServletResponse response, Exception e) {
         log.error(String.valueOf(e.getStackTrace()));
-        return Result.fial(500,"异常请求："+request.getRequestURL()+"，异常信息为："+e.getMessage());
+        return Result.fial(500, "异常请求：" + request.getRequestURL() + "，异常信息为：" + e.getMessage());
     }
 
 }
